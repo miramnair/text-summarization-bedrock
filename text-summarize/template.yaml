@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+   Bedrock Demo
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 30
+    Tracing: Active
+
+    # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
+    LoggingConfig:
+      LogFormat: JSON
+  Api:
+    TracingEnabled: true
+
+Resources:
+
+  httpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:  
+      AccessLogSettings:
+        DestinationArn: !GetAtt AccessLogs.Arn
+        Format: $context.requestId
+      CorsConfiguration:
+        AllowOrigins: 
+          - "*"
+        AllowHeaders:
+          - "*"
+        AllowMethods:
+          - GET
+          - PUT
+          - POST
+          - OPTIONS
+          - DELETE
+      FailOnWarnings: True
+  AccessLogs:
+    Type: AWS::Logs::LogGroup
+  
+
+  SamDemoAPI:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Architectures:
+      - x86_64
+      Policies:
+       - Version: "2012-10-17"
+         Statement:
+            - Effect: "Allow"
+              Action:
+                - "bedrock:InvokeModel"
+              Resource: "arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-text-lite-v1"
+
+      Events:
+        PostAlertEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref httpApi
+            Path: /
+            Method: post
+
+
+
+

@@ -1,6 +1,6 @@
 import json
 
-1. #Import boto3 and craete client connection with Bedrock
+1. #Import boto3 and create client connection with Bedrock
 import boto3
 client_bedrock = boto3.client('bedrock-runtime')
 

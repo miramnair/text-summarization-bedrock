@@ -25,5 +25,5 @@ jobs:
         run: sam build --use-container
 
       - name: SAM Deploy
-        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --s3-bucket $SAM_BUCKET_NAME --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND CAPABILITY_NAMED_IAM --no-fail-on-empty-changeset --stack-name "text-summarization-stack" --s3-prefix "text-summarization-stack-$Environment" --parameter-overrides ParameterKey=Environment,ParameterValue=$Environment ParameterKey=EnvironmentLower,ParameterValue=$EnvironmentLower
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --s3-bucket $SAM_BUCKET_NAME --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND CAPABILITY_NAMED_IAM --no-fail-on-empty-changeset --stack-name "web-scrapping-stack" --s3-prefix "text-summarization-stack-$Environment" --parameter-overrides ParameterKey=Environment,ParameterValue=$Environment ParameterKey=EnvironmentLower,ParameterValue=$EnvironmentLower
         

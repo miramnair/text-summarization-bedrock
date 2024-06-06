@@ -1,5 +1,5 @@
 # text-summarization-bedrock
-Text Summarization using AWS Bedrock 
+Text Summarization using AWS Bedrock.
 
 
 Use Case :
